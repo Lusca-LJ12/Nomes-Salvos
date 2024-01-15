@@ -19,7 +19,5 @@ jobs:
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
         git add dados.json
-
-        # Verificar se há alterações antes de commitar
-        git diff --exit-code || git commit -m "Update JSON [skip ci]"
+        git commit -m "Update JSON [skip ci]"
         git push
