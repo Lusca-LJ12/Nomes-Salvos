@@ -13,11 +13,20 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v2
 
-    - name: Update JSON
+    - name: Set up Git
       run: |
-        echo '[]' > dados.json
         git config --local user.email "actions@github.com"
         git config --local user.name "GitHub Actions"
+
+    - name: Check for changes
+      id: check_changes
+      run: |
+        git diff-index --quiet HEAD || echo "Changes found"
+
+    - name: Update JSON
+      if: steps.check_changes.outputs.changes == 'Changes found'
+      run: |
+        echo '[]' > dados.json
         git add dados.json
         git commit -m "Update JSON [skip ci]"
         git push https://${{ secrets.GH_TOKEN }}@github.com/Lusca-LJ12/Nomes-Salvos.git
